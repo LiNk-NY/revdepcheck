@@ -1,5 +1,4 @@
 
-#' @importFrom remotes bioc_install_repos
 #' @importFrom crancache available_packages
 
 cran_revdeps <- function(package, dependencies = TRUE, bioc = FALSE) {
@@ -17,10 +16,11 @@ cran_revdeps <- function(package, dependencies = TRUE, bioc = FALSE) {
 }
 
 get_repos <- function(bioc) {
-  repos <- c(
-    getOption("repos"),
-    if (bioc) bioc_install_repos()
-  )
+  repos <-
+    if (bioc)
+        BiocManager::repositories()
+    else
+        getOption("repos")
   if (! "CRAN" %in% names(repos) || repos["CRAN"] == "@CRAN@") {
     repos["CRAN"] <- "https://cloud.r-project.org"
   }
